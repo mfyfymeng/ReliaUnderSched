@@ -1,0 +1,26 @@
+{
+  "switch": [
+    {"mac_address": "sw1", "port_num": 4},
+    {"mac_address": "sw2", "port_num": 4},
+    {"mac_address": "sw3", "port_num": 4}
+  ],
+  "end_system": [
+    {"mac_address": "es1", "port_num": 2},
+    {"mac_address": "es2", "port_num": 2},
+    {"mac_address": "es3", "port_num": 2},
+    {"mac_address": "es4", "port_num": 2},
+    {"mac_address": "es5", "port_num": 2},
+    {"mac_address": "es6", "port_num": 2}
+
+  ],
+  "link": [
+    {"src_dev": "sw1", "src_port": 0, "dst_dev": "sw2", "dst_port": 0},
+    {"src_dev": "sw2", "src_port": 1, "dst_dev": "sw3", "dst_port": 0},
+    {"src_dev": "es1", "src_port": 0, "dst_dev": "sw1", "dst_port": 1},
+    {"src_dev": "es2", "src_port": 0, "dst_dev": "sw1", "dst_port": 2},
+    {"src_dev": "es3", "src_port": 0, "dst_dev": "sw3", "dst_port": 1},
+    {"src_dev": "es4", "src_port": 1, "dst_dev": "sw2", "dst_port": 3},
+    {"src_dev": "es5", "src_port": 0, "dst_dev": "sw2", "dst_port": 2},
+    {"src_dev": "es6", "src_port": 0, "dst_dev": "sw1", "dst_port": 3}
+  ]
+}

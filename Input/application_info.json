@@ -1,0 +1,20 @@
+[
+  {
+    "app_id": "I",
+    "src_dev": "es1",
+    "dst_dev": "es5",
+    "size": 100,
+    "priority": 7,
+    "interval": 1,
+    "path": ["es1", "sw1", "sw2", "es5"]
+  },
+  {
+    "app_id": "II",
+    "src_dev": "es2",
+    "dst_dev": "es4",
+    "size": 300,
+    "priority": 5,
+    "interval": 2,
+    "path": ["es2", "sw1", "sw2", "es4"]
+  }
+]
