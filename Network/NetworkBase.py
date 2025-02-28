@@ -145,9 +145,6 @@ class Flow:
     def is_completed(self):
         return self.remaining_size <= 0
 
-    def add_fragment(self, fragment: "FlowFragment"):
-        self.__fragments.append(fragment)
-
 
 class FlowFragment:
     def __init__(self, original_flow: "Flow", size: int, arrival_time: int):

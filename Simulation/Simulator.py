@@ -14,11 +14,15 @@ class Simulator:
 
         self.__curr_time = 0.0
         self.__time_step = 1.0
+        self.__scheduler = None
 
         self.__statistics = Statistics()
 
     def set_seed(self, seed: int=42):
         np.random.seed(seed)
+
+    def set_scheduler(self, scheduler: str):
+        self.__scheduler = scheduler
 
     def run(self, max_duration: int):
         print("\n<Network Simulator> Network simulation starts...")
@@ -53,7 +57,7 @@ class Simulator:
 
                     total_transmitted_size = 0
                     while total_transmitted_size < max_size:
-                        sched_fragment = port.schedule()
+                        sched_fragment = port.schedule(self.__scheduler)
                         if sched_fragment:
                             sched_fragment_size = sched_fragment.get_size()
 

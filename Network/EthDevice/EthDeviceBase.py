@@ -131,6 +131,19 @@ class Port:
         next_dev, next_egress_port = fragment.get_next(curr_dev, dev_dict)
         next_dev.enqueue_buffer(fragment)
 
-    def schedule(self) -> "FlowFragment":
-        scheduler = StrictPriorityScheduler(self.__queues)
+    def schedule(self, type: str) -> "FlowFragment":
+        if type == "SP":
+            scheduler = StrictPriorityScheduler(self.__queues)
+        elif type == "WRR":
+            weights = {0: 0,
+                       1: 0,
+                       2: 0,
+                       3: 0,
+                       4: 0,
+                       5: 2,
+                       6: 0,
+                       7: 1}
+
+            scheduler = WeightedRoundRobinScheduler(self.__queues, weights)
+
         return scheduler.schedule()

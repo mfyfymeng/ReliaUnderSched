@@ -4,7 +4,7 @@
 
 ### Topology
 
-![case topology](image/topology.jpg)
+![case topology](image/topology.png)
 
 ### Application setting
 
@@ -20,3 +20,8 @@ App2
 - priority: 5
 - interval: 2
 
+App3 (serve as a burst traffic)
+- path: ES6[0] ---- [3]SW1[0] ---- [0]SW2[3] ---- [1]ES4
+- size: 500 bytes
+- priority: 5
+- interval: 1

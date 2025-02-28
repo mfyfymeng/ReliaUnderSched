@@ -9,27 +9,38 @@ class WeightedRoundRobinScheduler(SchedulerBase):
     def __init__(self, queues: dict, weights: dict):
         super().__init__(queues)
         self.__weights = weights
-        self.__curr_prio = None
-        self.__weight_counter = 0
+        self.__curr_queue = None
+        self.__weight_counter = {}  # 用于记录每个队列的权重计数
 
+        # 初始化权重计数器
+        for queue_id in self.get_queues():
+            self.__weight_counter[queue_id] = 0
+
+    # 先根据权重调度，权重相同则按优先级调度
     def schedule(self) -> "FlowFragment":
         queues = self.get_queues()
-        prio_list = self.get_prio_list()
 
-        for _ in range(len(prio_list)):
-            if self.__curr_prio is None:
-                self.__curr_prio = prio_list[0]
+        # 获取所有队列id
+        queue_list = list(queues.keys())
 
-            target_weight = self.__weights.get(self.__curr_prio, 1)
+        # 先按权重从高到低排序，权重相同则按优先级从高到低排序
+        sorted_queue_list = sorted(queue_list, key=lambda q: (-self.__weights.get(q, 1), -q))
 
-            # 当权重未用完且队列非空时
-            if self.__weight_counter < target_weight and queues[self.__curr_prio]:
-                self.__weight_counter += 1
-                return queues[self.__curr_prio].pop(0)
+        for _ in range(len(queue_list)):
+            if self.__curr_queue is None:
+                self.__curr_queue = sorted_queue_list[0]
 
-            # 如果当前优先级权重已用完，切换到下一个优先级
-            self.__weight_counter = 0
-            curr_index = (prio_list.index(self.__curr_prio) + 1) % len(prio_list)
-            self.__curr_prio = prio_list[curr_index]
+            # 获取当前队列的目标权重
+            target_weight = self.__weights.get(self.__curr_queue, 0)
+
+            # 如果当前队列的权重未用完且队列非空
+            if self.__weight_counter[self.__curr_queue] < target_weight and queues[self.__curr_queue]:
+                self.__weight_counter[self.__curr_queue] += 1
+                return queues[self.__curr_queue].pop(0)
+
+            # 如果当前队列的权重已用完，切换到下一个队列
+            self.__weight_counter[self.__curr_queue] = 0
+            curr_index = (sorted_queue_list.index(self.__curr_queue) + 1) % len(sorted_queue_list)
+            self.__curr_queue = sorted_queue_list[curr_index]
 
         return None
